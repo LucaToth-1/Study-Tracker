@@ -1,0 +1,128 @@
+value = 2
+for i in range(1,4):
+	value += (i + value)
+print(value)
+===========================
+STUDYTRACKER PROJECT ROADMAP
+===========================
+
+PHASE 1 — SETUP (Day 1–2)
+[x] Install Java 17 or 21
+[x] Install VS Code Java Extension Pack
+[x] Install Maven
+[x] Confirm `java -version` and `mvn -version`
+[x] Create Spring Boot project (initializr)
+[] Run Spring Boot project successfully
+[x] Create PostgreSQL or SQLite database
+[] Connect API to database (application.properties)
+
+PHASE 2 — BACKEND DOMAIN DESIGN (Day 2–3)
+[x] Define entities and fields:
+        - Subject
+        - StudySession
+[ ] Create ER diagram (optional)
+[x] Create package structure:
+        model/
+        repository/
+        service/
+        controller/
+        dto/
+
+PHASE 3 — DATABASE & ENTITIES (Day 3)
+[x] Implement Subject entity
+[x] Implement StudySession entity
+[x] Add timestamps (Instant or LocalDateTime)
+[ ] Verify tables auto-generate with JPA
+
+PHASE 4 — REPOSITORIES (Day 3)
+[x] Create SubjectRepository extends JpaRepository
+[ ] Create StudySessionRepository extends JpaRepository
+[ ] Test with simple findAll() in Spring Boot runner (optional)
+
+PHASE 5 — SERVICES (Day 4–5)
+[x] Create SubjectService with:
+        - getAllSubjects()
+        - createSubject()
+        - deleteSubject()
+[x] Create StudySessionService with:
+        - getAllSessions()
+        - createSession()
+        - updateSession()
+        - deleteSession()
+[ ] Add validation in service layer
+[ ] Add custom exceptions if needed
+
+PHASE 6 — CONTROLLERS (Day 5–6)
+[ ] Create SubjectController
+        - GET /subjects
+        - POST /subjects
+        - DELETE /subjects/{id}
+[ ] Create StudySessionController
+        - GET /sessions
+        - POST /sessions
+        - PUT /sessions/{id}
+        - DELETE /sessions/{id}
+[ ] Test every endpoint in Postman
+
+PHASE 7 — DTOs & CLEANUP (Day 6)
+[ ] Create SubjectDTO
+[ ] Create StudySessionDTO
+[ ] Use DTOs instead of exposing entities directly
+[ ] Add ModelMapper or manual mapping
+
+PHASE 8 — ERROR HANDLING (Day 7)
+[ ] Create @ControllerAdvice for global errors
+[ ] Add helpful error messages
+[ ] Add validation annotations (@NotNull, @NotBlank, etc.)
+
+PHASE 9 — TESTING (Day 7–8)
+[ ] Add JUnit tests for services
+[ ] Add mock tests with Mockito
+[ ] Add simple integration test for controllers
+
+PHASE 10 — POLISH (End of Week)
+[ ] Add CORS config for JavaFX client
+[ ] Clean project structure
+[ ] Comment all public methods
+[ ] Prepare README sections
+[ ] Commit everything to GitHub
+
+Week 1
+
+Initialize Spring project
+
+Implement Subject + Session models
+
+CRUD endpoints
+
+Connect PostgreSQL & test in Postman
+
+Week 2
+
+Build JavaFX UI
+
+Dashboard + Subject list
+
+Add session logging
+
+Connect API
+
+Week 3
+
+Charts
+
+Edit/Delete features
+
+Error handling
+
+Improve UI with CSS
+
+Week 4 (Polish)
+
+Add authentication
+
+Add CSV export
+
+Write README with screenshots
+
+Deploy backend

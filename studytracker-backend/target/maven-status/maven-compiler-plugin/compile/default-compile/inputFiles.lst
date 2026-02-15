@@ -1,0 +1,16 @@
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\dto\SubjectRequestDTO.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\dto\StudySessionRequestDTO.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\exception\ResourceNotFoundException.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\repository\SubjectRepo.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\controller\StudySessionController.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\service\StudySessionService.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\App.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\model\StudySession.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\repository\StudySessionRepo.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\controller\SubjectController.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\exception\InvalidRequestException.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\dto\StudySessionResponseDTO.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\model\Subject.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\service\SubjectService.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\dto\SubjectResponseDTO.java
+C:\Users\luca3\OneDrive - University of Cincinnati\Documents\Coding Projects\Java-personal-project\studytracker-backend\src\main\java\com\luca\exception\GlobalExceptionHandler.java
