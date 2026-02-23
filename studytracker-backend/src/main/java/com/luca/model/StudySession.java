@@ -2,82 +2,78 @@ package com.luca.model;
 
 import java.time.Instant;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class StudySession {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
     private Long id;
-    private Long subjectId;
-    private double durationMin; //we will have the duration in minutes for now
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id", nullable = false)
+    @JsonBackReference
+    private Subject subject;
+
+    private double durationMin;
+    
+    @Column(length =1000)
     private String notes;
+    
     private Instant timestamp;
 
-    //no-arg constructor required by JPA
-    public StudySession() {
-    }
-    
-    
+    // Required by JPA
+    public StudySession() {}
 
-    //constructor for the study session object
-    public StudySession(long Mid, long mSubjectId, double mDurationMin, String mNotes, Instant mTimestamp) {
-        this.id = Mid;
-        this.subjectId = mSubjectId;
-        this.durationMin = mDurationMin;
-        this.notes = mNotes;
-        this.timestamp = mTimestamp;
+    public StudySession(Subject subject, double durationMin, String notes, Instant timestamp) {
+        this.subject = subject;
+        this.durationMin = durationMin;
+        this.notes = notes;
+        this.timestamp = timestamp;
     }
 
-    //getters and setters for each attribute
+    // Getters & Setters
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long mID) {
-        id = mID;
+    public void setId(long ID){
+        this.id = ID;
     }
 
-    public Long getSubjectId() {
-        return subjectId;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(Long mSubjectId) {
-        subjectId = mSubjectId;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public double getDurationMin() {
         return durationMin;
     }
 
-    public void setDurationMin(double mDurationMin) {
-        durationMin = mDurationMin;
+    public void setDurationMin(double durationMin) {
+        this.durationMin = durationMin;
     }
 
     public String getNotes() {
         return notes;
     }
 
-    public void setNotes(String mNotes) {
-        notes = mNotes;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant mTimestamp) {
-        timestamp = mTimestamp;
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
-
 }

@@ -124,16 +124,15 @@ public class SubjectServiceTest {
 
     @Test
     void testDeleteSubjectSuccess() {
-        // Arrange: Mock repository
-        when(subjectRepo.findById(1L)).thenReturn(Optional.of(testSubject));
-        doNothing().when(subjectRepo).deleteById(1L);
+    // Arrange
+    when(subjectRepo.findById(1L)).thenReturn(Optional.of(testSubject));
+    doNothing().when(subjectRepo).delete(testSubject);
 
-        // Act: Call delete
-        SubjectResponseDTO result = subjectService.deleteSubject(1L);
+    // Act
+    subjectService.deleteSubject(1L);
 
-        // Assert: Verify deletion
-        assertNotNull(result);
-        verify(subjectRepo, times(1)).deleteById(1L);
+    // Assert
+    verify(subjectRepo, times(1)).delete(testSubject);
     }
 
     @Test

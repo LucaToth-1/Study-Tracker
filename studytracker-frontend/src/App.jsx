@@ -12,6 +12,9 @@ function App() {
   const [showSessionForm, setShowSessionForm] = useState(false)
   const [error, setError] = useState(null)
 
+  // NEW: reload trigger for StudySessionList
+  const [sessionReloadTrigger, setSessionReloadTrigger] = useState(0)
+
   useEffect(() => {
     loadSubjects()
   }, [])
@@ -36,9 +39,14 @@ function App() {
     setSelectedSubject(null)
   }
 
-  const handleSessionCreated = () => {
-    loadSubjects()
-    setShowSessionForm(false)
+  const handleSessionCreated = async () => {
+  setSessionReloadTrigger(prev => prev + 1)
+  await loadSubjects() 
+  setShowSessionForm(false)
+}
+
+  const handleSessionDeletedOrUpdated = () => {
+    setSessionReloadTrigger(prev => prev + 1) // reload after delete/edit
   }
 
   return (
@@ -93,14 +101,15 @@ function App() {
                 <StudySessionForm 
                   subjectId={selectedSubject.id}
                   subjects={subjects}
-                  onSessionCreated={handleSessionCreated}
+                  onSessionCreated={handleSessionCreated} // reloads sessions
                   onCancel={() => setShowSessionForm(false)}
                 />
               )}
 
               <StudySessionList 
                 subjectId={selectedSubject.id}
-                onSessionDeleted={loadSubjects}
+                reloadTrigger={sessionReloadTrigger} // NEW: prop to trigger reload
+                onSessionDeleted={handleSessionDeletedOrUpdated} // reload after delete
               />
             </>
           ) : (

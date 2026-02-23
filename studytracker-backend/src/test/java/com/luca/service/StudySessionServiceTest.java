@@ -1,7 +1,9 @@
 package com.luca.service;
 
 import com.luca.model.StudySession;
+import com.luca.model.Subject;
 import com.luca.repository.StudySessionRepo;
+import com.luca.repository.SubjectRepo;
 import com.luca.dto.StudySessionRequestDTO;
 import com.luca.dto.StudySessionResponseDTO;
 import com.luca.exception.ResourceNotFoundException;
@@ -26,6 +28,9 @@ public class StudySessionServiceTest {
     @Mock
     private StudySessionRepo studySessionRepo;
 
+    @Mock
+    private SubjectRepo subjectRepo;
+
     @InjectMocks
     private StudySessionService studySessionService;
 
@@ -39,10 +44,11 @@ public class StudySessionServiceTest {
         testDto.setDurationMin(45.0);
         testDto.setNotes("Studied arrays");
         testDto.setTimestamp(Instant.now());
-
         testSession = new StudySession();
+        Subject subject = new Subject();
         testSession.setId(1L);
-        testSession.setSubjectId(1L);
+        subject.setId(1L);
+        testSession.setSubject(subject);
         testSession.setDurationMin(45.0);
         testSession.setNotes("Studied arrays");
         testSession.setTimestamp(Instant.now());
@@ -50,18 +56,39 @@ public class StudySessionServiceTest {
 
     @Test
     void testCreateStudySessionSuccess() {
-        // Arrange
-        when(studySessionRepo.save(any(StudySession.class))).thenAnswer(invocation -> testSession);
 
-        // Act
-        StudySessionResponseDTO result = studySessionService.createStudySession(testDto);
+    // -------- ARRANGE --------
+    // Create a mock Subject that would normally come from the database
+    Subject subject = new Subject();
+    subject.setId(1L);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1L, result.getId());
-        assertEquals(1L, result.getSubjectId());
-        assertEquals(45.0, result.getDurationMin());
+    // Mock the SubjectRepo to return the subject when findById is called
+    when(subjectRepo.findById(1L))
+            .thenReturn(Optional.of(subject));
+
+    // Mock the StudySessionRepo save() method to return our test session
+    when(studySessionRepo.save(any(StudySession.class)))
+            .thenAnswer(invocation -> testSession);
+
+    // -------- ACT --------
+    // Call the service method we are testing
+    StudySessionResponseDTO result =
+            studySessionService.createStudySession(testDto);
+
+    // -------- ASSERT --------
+    // Verify the result is not null
+    assertNotNull(result);
+
+    // Verify fields were mapped correctly
+    assertEquals(1L, result.getId());
+    assertEquals(1L, result.getSubjectId());
+    assertEquals(45.0, result.getDurationMin());
+
+    // Verify repositories were actually called
+    verify(subjectRepo, times(1)).findById(1L);
+    verify(studySessionRepo, times(1)).save(any(StudySession.class));
     }
+
 
     @Test
     void testCreateStudySessionWithNegativeDuration() {

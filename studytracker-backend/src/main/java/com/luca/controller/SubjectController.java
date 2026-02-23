@@ -5,6 +5,8 @@ import com.luca.service.SubjectService;
 import com.luca.dto.SubjectRequestDTO;
 import com.luca.dto.SubjectResponseDTO;
 import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,8 +48,9 @@ public class SubjectController {
 
     //Delete a subject by ID
     @DeleteMapping("/{id}")
-    public SubjectResponseDTO deleteSubject(@PathVariable long mId){
-        return subjectService.deleteSubject(mId);
-    }
+    public ResponseEntity<Void> deleteSubject(@PathVariable long id){
+    subjectService.deleteSubject(id);
+    return ResponseEntity.noContent().build();
+}
 }
 

@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface StudySessionRepo extends JpaRepository<StudySession, Long> {
-    List<StudySession> findBySubjectId(Long subjectId);
+    List<StudySession> findBySubject_Id(Long subjectId);
 }

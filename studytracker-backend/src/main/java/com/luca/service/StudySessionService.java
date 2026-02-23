@@ -1,6 +1,8 @@
 package com.luca.service;
 
 import com.luca.model.StudySession;
+import com.luca.repository.SubjectRepo;
+import com.luca.model.Subject;
 import com.luca.repository.StudySessionRepo;
 import com.luca.dto.StudySessionRequestDTO;
 import com.luca.dto.StudySessionResponseDTO;
@@ -20,9 +22,11 @@ public class StudySessionService {
     private static final Logger logger = LoggerFactory.getLogger(StudySessionService.class);
 
     private final StudySessionRepo studySessionRepo;
+    private final SubjectRepo subjectRepo;
     
-    public StudySessionService(StudySessionRepo mStudySessionRepo){
+    public StudySessionService(StudySessionRepo mStudySessionRepo, SubjectRepo mSubjectRepo){
         this.studySessionRepo = mStudySessionRepo;
+        this.subjectRepo = mSubjectRepo;
     }
 
     //Returning a list of all study sessions
@@ -44,7 +48,11 @@ public class StudySessionService {
             throw new InvalidRequestException("Duration must be greater than 0");
         }
         StudySession session = new StudySession();
-        session.setSubjectId(mStudySessionRequestDTO.getSubjectId());
+        Subject subject = subjectRepo.findById(mStudySessionRequestDTO.getSubjectId())
+        .orElseThrow(() -> new ResourceNotFoundException(
+                "Subject not found with id: " + mStudySessionRequestDTO.getSubjectId()));
+
+session.setSubject(subject);
         session.setDurationMin(mStudySessionRequestDTO.getDurationMin());
         session.setNotes(mStudySessionRequestDTO.getNotes());
         session.setTimestamp(mStudySessionRequestDTO.getTimestamp());
@@ -66,7 +74,7 @@ public class StudySessionService {
     //Getting study sessions by subject ID
     public List<StudySessionResponseDTO> getStudySessionsBySubjectId(Long mSubjectId){
         logger.info("Fetching study sessions for subject ID: {}", mSubjectId);
-        return studySessionRepo.findBySubjectId(mSubjectId)
+        return studySessionRepo.findBySubject_Id(mSubjectId)
                 .stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
@@ -80,7 +88,10 @@ public class StudySessionService {
         }
         StudySession session = studySessionRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Study session not found with id: " + id));
-        session.setSubjectId(mStudySessionRequestDTO.getSubjectId());
+        Subject subject = subjectRepo.findById(mStudySessionRequestDTO.getSubjectId())
+        .orElseThrow(() -> new ResourceNotFoundException(
+                "Subject not found with id: " + mStudySessionRequestDTO.getSubjectId()));
+                session.setSubject(subject);
         session.setDurationMin(mStudySessionRequestDTO.getDurationMin());
         session.setNotes(mStudySessionRequestDTO.getNotes());
         session.setTimestamp(mStudySessionRequestDTO.getTimestamp());
@@ -102,7 +113,7 @@ public class StudySessionService {
     private StudySessionResponseDTO convertToResponseDTO(StudySession session) {
         StudySessionResponseDTO dto = new StudySessionResponseDTO();
         dto.setId(session.getId());
-        dto.setSubjectId(session.getSubjectId());
+        dto.setSubjectId(session.getSubject().getId());
         dto.setDurationMin(session.getDurationMin());
         dto.setNotes(session.getNotes());
         dto.setTimestamp(session.getTimestamp());

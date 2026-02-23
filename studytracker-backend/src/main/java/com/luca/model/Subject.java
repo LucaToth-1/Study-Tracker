@@ -11,8 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Subject {
@@ -28,9 +29,11 @@ public class Subject {
     @UpdateTimestamp
     private Instant updatedAt = Instant.now();
 
-    //cascade delete: when a subject is deleted, all associated sessions are deleted too
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "subjectId")
+    // Bidirectional relationship: a Subject can have many StudySessions.
+    // 'mappedBy = "subject"' tells Hibernate that the foreign key is managed by
+    // the 'subject' field in StudySession, so no duplicate column is created.
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<StudySession> sessions;
 
     //no-arg constructor required by JPA

@@ -1,108 +1,92 @@
-import { useState } from 'react'
-import { createStudySession } from '../services/api'
+import { useState, useEffect } from "react"
+import { createStudySession } from "../services/api"
 
-function StudySessionForm({ subjectId, subjects, onSessionCreated, onCancel }) {
-  const [formData, setFormData] = useState({
-    subjectId: subjectId,
-    durationMin: '',
-    notes: ''
-  })
+function StudySessionForm({ subjectId, onSessionCreated, onCancel }) {
+  const [duration, setDuration] = useState("")
+  const [notes, setNotes] = useState("")
+  const [date, setDate] = useState("")
   const [error, setError] = useState(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    if (!formData.durationMin || parseFloat(formData.durationMin) <= 0) {
-      setError('Duration must be greater than 0')
-      return
-    }
+  // Set default date to current local time
+  useEffect(() => {
+    const now = new Date()
+    const offset = now.getTimezoneOffset() * 60000
+    const localISOTime = new Date(now - offset).toISOString().slice(0, 16)
+    setDate(localISOTime)
+  }, [])
 
-    setIsSubmitting(true)
+ const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  if (!duration || !date || !subjectId) {
+    setError("Subject, duration, and date are required.")
+    return
+  }
+
+  try {
+    setLoading(true)
     setError(null)
 
-    try {
-      await createStudySession({
-        subjectId: parseInt(formData.subjectId),
-        durationMin: parseFloat(formData.durationMin),
-        notes: formData.notes.trim()
-      })
-      setFormData({ subjectId: subjectId, durationMin: '', notes: '' })
-      onSessionCreated()
-    } catch (err) {
-      setError('Failed to create study session: ' + err.message)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+    await createStudySession({
+      subjectId: subjectId,   
+      durationMin: parseFloat(duration),
+      notes: notes || "",
+      timestamp: new Date(date).toISOString()
+    })
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    onSessionCreated()
+  } catch (err) {
+    setError("Failed to create study session.")
+  } finally {
+    setLoading(false)
   }
+}
 
   return (
-    <div className="form-card">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="subject">Subject</label>
-          <select
-            id="subject"
-            name="subjectId"
-            value={formData.subjectId}
-            onChange={handleChange}
-            disabled={isSubmitting}
-          >
-            {subjects.map(subject => (
-              <option key={subject.id} value={subject.id}>
-                {subject.name}
-              </option>
-            ))}
-          </select>
-        </div>
+    <form className="session-form" onSubmit={handleSubmit}>
+      {error && <div className="error-banner">{error}</div>}
 
-        <div className="form-group">
-          <label htmlFor="duration">Duration (minutes)</label>
-          <input
-            id="duration"
-            type="number"
-            name="durationMin"
-            step="0.1"
-            min="0.1"
-            value={formData.durationMin}
-            onChange={handleChange}
-            placeholder="e.g., 45, 90, 120"
-            disabled={isSubmitting}
-          />
-        </div>
+      <div className="form-group">
+        <label>Duration (minutes)</label>
+        <input
+          type="number"
+          min="1"
+          step="0.1"
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          required
+        />
+      </div>
 
-        <div className="form-group">
-          <label htmlFor="notes">Notes (optional)</label>
-          <textarea
-            id="notes"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            placeholder="What did you study? Any key topics or concepts?"
-            disabled={isSubmitting}
-          />
-        </div>
+      <div className="form-group">
+        <label>Date & Time</label>
+        <input
+          type="datetime-local"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          required
+        />
+      </div>
 
-        {error && <div className="form-error">{error}</div>}
+      <div className="form-group">
+        <label>Notes (optional)</label>
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          rows="3"
+        />
+      </div>
 
-        <div className="form-actions">
-          <button type="submit" className="btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Creating...' : 'Create Session'}
-          </button>
-          <button type="button" className="btn-secondary" onClick={onCancel} disabled={isSubmitting}>
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      <div className="form-actions">
+        <button type="submit" className="btn-primary" disabled={loading}>
+          {loading ? "Saving..." : "Save Session"}
+        </button>
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
+    </form>
   )
 }
 

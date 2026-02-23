@@ -1,6 +1,8 @@
 package com.luca.service;
 
+import com.luca.model.StudySession;
 import com.luca.model.Subject;
+import com.luca.repository.StudySessionRepo;
 import com.luca.repository.SubjectRepo;
 import com.luca.dto.SubjectRequestDTO;
 import com.luca.dto.SubjectResponseDTO;
@@ -23,10 +25,15 @@ public class SubjectService {
 
     private final SubjectRepo subjectRepo;
 
+    private final StudySessionRepo studySessionRepo;
 
-    public SubjectService(SubjectRepo mSubjectRepo){
-        this.subjectRepo = mSubjectRepo;
+    public SubjectService(SubjectRepo mSubjectRepo, StudySessionRepo mStudySessionRepo){
+    this.subjectRepo = mSubjectRepo;
+    this.studySessionRepo = mStudySessionRepo;
     }
+
+
+   
 
     //returning a list of all subjects (converted to DTOs)
     public List<SubjectResponseDTO> getAllSubjects(){
@@ -53,13 +60,15 @@ public class SubjectService {
     }
 
     //deleting a subject by its ID
-    public SubjectResponseDTO deleteSubject(long mSubjectId){
-        logger.info("Deleting subject with ID: {}", mSubjectId);
-        Subject subject = subjectRepo.findById(mSubjectId)
-                .orElseThrow(() -> new ResourceNotFoundException("Subject not found with id: " + mSubjectId));
-        subjectRepo.deleteById(mSubjectId);
-        logger.info("Subject deleted with ID: {}", mSubjectId);
-        return convertToResponseDTO(subject);
+    public void deleteSubject(long subjectId){
+    logger.info("Deleting subject with ID: {}", subjectId);
+
+    Subject subject = subjectRepo.findById(subjectId)
+            .orElseThrow(() -> new ResourceNotFoundException("Subject not found with id: " + subjectId));
+
+    subjectRepo.delete(subject);
+
+    logger.info("Subject deleted with ID: {}", subjectId);
     }
 
     //getting a subject by its ID (converted to DTO)
@@ -87,11 +96,19 @@ public class SubjectService {
 
     //helper method: convert Entity to Response DTO
     private SubjectResponseDTO convertToResponseDTO(Subject subject) {
-        SubjectResponseDTO dto = new SubjectResponseDTO();
-        dto.setId(subject.getId());
-        dto.setName(subject.getName());
-        dto.setCreatedAt(subject.getCreatedAt());
-        return dto;
-    }
+    SubjectResponseDTO dto = new SubjectResponseDTO();
+    dto.setId(subject.getId());
+    dto.setName(subject.getName());
+    dto.setCreatedAt(subject.getCreatedAt());
+
+    // Compute total minutes from study sessions
+    double totalMinutes = studySessionRepo.findBySubject_Id(subject.getId())
+                            .stream()
+                            .mapToDouble(StudySession::getDurationMin)
+                            .sum();
+    dto.setTotalStudyTimeMin(totalMinutes);
+
+    return dto;
+}
 }
 

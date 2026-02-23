@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
 import { getStudySessionsBySubjectId, deleteStudySession, updateStudySession } from '../services/api'
 
-function StudySessionList({ subjectId, onSessionDeleted }) {
+function StudySessionList({ subjectId, reloadTrigger = 0, onSessionDeleted }) {
   const [sessions, setSessions] = useState([])
   const [editingId, setEditingId] = useState(null)
   const [editForm, setEditForm] = useState({})
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // PATCH: include reloadTrigger so it reloads when new sessions are added/updated
   useEffect(() => {
     loadSessions()
-  }, [subjectId])
+  }, [subjectId, reloadTrigger])
 
   const loadSessions = async () => {
     try {
@@ -30,7 +31,7 @@ function StudySessionList({ subjectId, onSessionDeleted }) {
       try {
         await deleteStudySession(id)
         loadSessions()
-        onSessionDeleted()
+        onSessionDeleted && onSessionDeleted() // refresh parent if needed
         setError(null)
       } catch (err) {
         setError('Failed to delete session: ' + err.message)
@@ -55,7 +56,7 @@ function StudySessionList({ subjectId, onSessionDeleted }) {
       })
       setEditingId(null)
       loadSessions()
-      onSessionDeleted() // Refresh subjects to update total time
+      onSessionDeleted && onSessionDeleted() // refresh parent if needed
       setError(null)
     } catch (err) {
       setError('Failed to update session: ' + err.message)
