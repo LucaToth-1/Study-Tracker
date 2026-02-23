@@ -1,0 +1,14 @@
+# Maven build folder
+target/
+
+# H2 database
+*.mv.db
+*.trace.db
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
