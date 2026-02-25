@@ -1,3 +1,4 @@
+import { BookOpen } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import SubjectList from './components/SubjectList'
 import SubjectForm from './components/SubjectForm'
@@ -52,8 +53,14 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>📚 Study Tracker</h1>
+       <div className="header-container">
+          <h1 className="header-title">
+            <BookOpen size={28} />
+            Study Tracker
+          </h1>
+        </div>
       </header>
+
 
       {error && <div className="error-banner">{error}</div>}
 

@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background-color: #F5F5DC
 }
 
 .app {
@@ -20,15 +20,17 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
   color: white;
   padding: 1.5rem 2rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .app-header h1 {
+  font-family: 'Merriweather', serif;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .error-banner {
@@ -75,8 +77,14 @@ body {
   color: #333;
 }
 
+.header-container {
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 .placeholder {
-  background: white;
+  background: #fffdf7;
   border-radius: 8px;
   padding: 3rem;
   text-align: center;
@@ -86,7 +94,7 @@ body {
 
 /* Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -99,7 +107,7 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 8px rgba(30, 58, 95, 0.4);
 }
 
 .btn-secondary {
@@ -118,8 +126,8 @@ body {
 }
 
 .btn-danger {
-  background: #dc3545;
-  color: white;
+  background: #7a1f1f;
+  color: white;;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -129,11 +137,11 @@ body {
 }
 
 .btn-danger:hover {
-  background: #c82333;
+  background: #5c1616;;
 }
 
 .btn-edit {
-  background: #28a745;
+  background: #3a5a78;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -144,12 +152,12 @@ body {
 }
 
 .btn-edit:hover {
-  background: #218838;
+  background: #2f475f;
 }
 
 /* Forms */
 .form-card {
-  background: white;
+  background: #fffdf7;
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -187,7 +195,7 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #1E90FF;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -211,7 +219,7 @@ body {
 }
 
 .subject-item {
-  background: white;
+  background: #fffdf7;;
   padding: 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -225,8 +233,8 @@ body {
 }
 
 .subject-item.selected {
-  border-color: #667eea;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-color: #2c5282;
+  background: linear-gradient(135deg, rgba(44, 82, 130, 0.1) 0%, rgba(30, 58, 95, 0.1) 100%);
 }
 
 .subject-item-header {
@@ -261,7 +269,7 @@ body {
 }
 
 .session-item {
-  background: white;
+  background: #fffdf7;
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -286,7 +294,7 @@ body {
 .session-duration {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #667eea;
+  color: #2c5282;
   margin-bottom: 0.5rem;
 }
 
@@ -309,7 +317,7 @@ body {
 }
 
 .empty-state {
-  background: white;
+  background: #fffdf7;
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
