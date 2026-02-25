@@ -1,87 +1,20 @@
-classDiagram
-    %% Entities
-    [x]class Subject {
-        +Long id
-        +String name
-        +Instant createdAt
-    }
+Study Tracker Application
 
-    [x]class StudySession {
-        +Long id
-        +Long subjectId
-        +int durationMin
-        +String notes
-        +Instant timestamp
-    }
+A simple Spring Boot application that helps users track their study sessions. This application allows users to create, update, and delete their subjects and study sessions, helping them manage their learning effectively.
 
-    %% Repositories
-    [x]class SubjectRepository {
-    }
+Features
 
-    [x]class StudySessionRepository {
-        +findById(id)
-    }
-
-    %% Services
-    [x]class SubjectService {
-        +getAllSubjects()
-        +createSubject(subject)
-        +deleteSubject(id)
-    }
-
-    [x]class StudySessionService {
-        +getAllSessions()
-        +createSession(session)
-        +updateSession(id, session)
-        +deleteSession(id)
-    }
-
-    %% Controllers
-    []class SubjectController {
-        +GET /subjects
-        +POST /subjects
-        +DELETE /subjects/{id}
-    }
-
-    []class StudySessionController {
-        +GET /sessions
-        +POST /sessions
-        +PUT /sessions/{id}
-        +DELETE /sessions/{id}
-    }
-
-    %% DTOs
-    []class SubjectDTO {
-        +Long id
-        +String name
-        +Instant createdAt
-    }
-
-    []class StudySessionDTO {
-        +Long id
-        +Long subjectId
-        +int durationMin
-        +String notes
-        +Instant timestamp
-    }
-
-    %% Exceptions
-    []class ResourceNotFoundException
-    []class InvalidRequestException
-    []class GlobalExceptionHandler
-
-    %% Relationships
-    SubjectRepository ..> Subject : manages
-    StudySessionRepository ..> StudySession : manages
-
-    SubjectService --> SubjectRepository : uses
-    StudySessionService --> StudySessionRepository : uses
-
-    SubjectController --> SubjectService : uses
-    StudySessionController --> StudySessionService : uses
-
-    SubjectController --> SubjectDTO : returns
-    StudySessionController --> StudySessionDTO : returns
-
-    GlobalExceptionHandler --> ResourceNotFoundException : handles
-    GlobalExceptionHandler --> InvalidRequestException : handles
+  * Create, update, and delete subjects
+  * Log study sessions with duration, date, and notes
+  * Track study progress over a long duration of time
+  * Backend API built with Spring Boot and RESTful endpoins
+  
+ Technologies Used
+ 
+ * Backend: Spring Boot
+ * Database: PostgresSQL
+ * API: RESTful endpoints with JSON payloads
+ * Fronted: React.js
+ * Build Tool: Maven
+ 
+ Getting Started
