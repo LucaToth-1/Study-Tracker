@@ -47,6 +47,9 @@ public class StudySessionService {
         if (mStudySessionRequestDTO.getDurationMin() <= 0) {
             throw new InvalidRequestException("Duration must be greater than 0");
         }
+        if (mStudySessionRequestDTO.getNotes().length() > 256){
+            throw new InvalidRequestException("Character Limit is 256 characters");
+        }
         StudySession session = new StudySession();
         Subject subject = subjectRepo.findById(mStudySessionRequestDTO.getSubjectId())
         .orElseThrow(() -> new ResourceNotFoundException(
