@@ -20,7 +20,7 @@ A full-stack web application for tracking study sessions across subjects. Built 
 |---|---|
 | Backend | Java 17, Spring Boot 3 |
 | Persistence | Spring Data JPA / Hibernate |
-| Database | H2 (in-memory, dev)  (PostgreSQL is the planned Database for production) |
+| Database | PostgreSQL |
 | Serialization | Jackson (`@JsonManagedReference` / `@JsonBackReference`) |
 | Frontend | React.js |
 | Build Tool | Maven |
